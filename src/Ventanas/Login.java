@@ -7,6 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Login extends JFrame implements ActionListener{
 
@@ -67,7 +68,9 @@ public class Login extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Director dir = dDAO.mostrarDirector("1");
+
+
+        Director dir = dDAO.mostrarDirector();
         if(e.getSource()==btnIniciarSession){
             if(usuario.getText().equals(dir.getUsuario()) && cont.getText().equals(dir.getContraseña())){
                 JOptionPane.showMessageDialog(this, "Inicio de session correcto");
@@ -96,7 +99,7 @@ public class Login extends JFrame implements ActionListener{
 
         //============ Prueba Consultas ==========
 
-        Director dire = dirDAO.mostrarDirector("");
+        Director dire = dirDAO.mostrarDirector();
 
 
 
