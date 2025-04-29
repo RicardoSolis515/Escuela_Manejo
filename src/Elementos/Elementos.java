@@ -8,17 +8,7 @@ import java.sql.SQLException;
 
 public class Elementos extends JFrame{
 
-    //public AlumnoDAO alumnoDAO = new AlumnoDAO();
 
-
-
-    public void asignarPosicion(JComponent componente, int x, int y, int w, int h){
-
-        componente.setBounds(x, y, w, h);
-
-        add(componente);
-
-    }
 
     public void actualizarTabla(JTable tabla) {
 
