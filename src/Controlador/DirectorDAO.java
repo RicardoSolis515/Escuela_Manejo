@@ -30,9 +30,10 @@ public class DirectorDAO {
                 "WHERE nss = '" + d.getNss() + "'";
         return conexionBD.ejecutarInstruccionLMD(sql);
     }
-
+/*
     public Director mostrarDirector(String nss) {
-        String sql = "SELECT * FROM Director WHERE nss = '" + nss + "'";
+        String sql = "SELECT * FROM Director";
+        //String sql = "SELECT * FROM Director WHERE nss = '" + nss + "'";
         ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
         Director d = null;
 
@@ -49,5 +50,27 @@ public class DirectorDAO {
         }
 
         return d;
+    }*/
+
+    //Regresa el primer y unico director
+    public Director mostrarDirector() {
+    String sql = "SELECT * FROM Director";
+    //String sql = "SELECT * FROM Director WHERE nss = '" + nss + "'";
+    ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
+    Director d = null;
+
+    try {
+        if (rs.next()) {
+            d = new Director(
+                    rs.getString("nss"),
+                    rs.getString("contraseña"),
+                    rs.getString("usuario")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return d;
+}
 }
