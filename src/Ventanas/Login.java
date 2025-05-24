@@ -73,7 +73,8 @@ public class Login extends JFrame implements ActionListener{
         Director dir = dDAO.mostrarDirector();
         if(e.getSource()==btnIniciarSession){
             if(usuario.getText().equals(dir.getUsuario()) && cont.getText().equals(dir.getContraseña())){
-                JOptionPane.showMessageDialog(this, "Inicio de session correcto");
+                Thread ventanaInicial = new Thread(new VentanaInicio());
+                dispose();
             }else
                 JOptionPane.showMessageDialog(this, "Usuario o contraseña no coinciden");
 
