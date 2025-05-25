@@ -1,5 +1,6 @@
 package Modelo;
 
+
 public class Leccion {
     private String nssInstructor;
     private String telefonoCliente;
@@ -7,6 +8,8 @@ public class Leccion {
     private String fecha;
     private String horaInicio;
     private String horaFinal;
+
+    public Leccion(){}
 
     public Leccion(String nssInstructor, String telefonoCliente, boolean individual, String fecha, String horaInicio, String horaFinal) {
         this.nssInstructor = nssInstructor;
