@@ -44,8 +44,15 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable {
 
     //----------------------------------ELEMENTOS PARA IFADMINISTRAR------------------------------------
 
+    JInternalFrame IFAdministrar;
+    JComboBox cajaInstructorA, cajaClienteA;
 
+    JTextField campoAño, campoMes, campoDia, campoHoraInicio, campoHoraFinal;
 
+    JTable lecciones;
+
+    JButton btnEditar, btnEliminar, btnBuscar;
+    JButton btnAñadirA, btnBorrarA, btnCancelarA;
 
     //---------------------------------VENTANAINICIO------------------------------------
     public VentanaInicio() {
@@ -257,6 +264,168 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable {
         mostrarDisponibilidad();
 
         add(IFAñadorLec);
+        //--------------------------------------FIN DE AÑADIR----------------------------
+        /*
+
+
+
+
+         */
+        //---------------------------------------------------------------------------------
+
+        //------------------------------------IFADMINISTRAR----------------------------------
+
+        IFAdministrar = new JInternalFrame();
+        IFAdministrar.setSize(800, 600);
+        IFAdministrar.setVisible(false);
+        IFAdministrar.setClosable(false);
+        IFAdministrar.setMaximizable(false);
+        IFAdministrar.setIconifiable(false);
+        IFAdministrar.setResizable(false);
+        IFAdministrar.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        IFAdministrar.getContentPane().setLayout(null);
+
+        try {
+            IFAdministrar.setMaximum(true);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
+
+        int margenIzq = 20;
+
+// -------------------------- Filtros de búsqueda --------------------------
+        JLabel lblInstructorA = new JLabel("Instructor:");
+        lblInstructorA.setBounds(margenIzq, 20, 150, 20);
+        IFAdministrar.add(lblInstructorA);
+
+        cajaInstructorA = new JComboBox();
+        cajaInstructorA.setBounds(margenIzq, 45, 250, 25);
+        cajaInstructorA.addActionListener(this); // Activo
+        IFAdministrar.add(cajaInstructorA);
+
+        JLabel lblClienteA = new JLabel("Cliente:");
+        lblClienteA.setBounds(margenIzq + 280, 20, 150, 20);
+        IFAdministrar.add(lblClienteA);
+
+        cajaClienteA = new JComboBox();
+        cajaClienteA.setBounds(margenIzq + 280, 45, 250, 25);
+        cajaClienteA.addActionListener(this); // Activo
+        IFAdministrar.add(cajaClienteA);
+
+        btnBuscar = new JButton(); // sin texto
+        btnBuscar.setBounds(margenIzq + 550, 45, 60, 60); // Botón cuadrado
+        btnBuscar.setEnabled(false);
+        btnBuscar.addActionListener(this);
+        IFAdministrar.add(btnBuscar);
+
+
+// -------------------------- Fecha --------------------------
+        JLabel lblFecha = new JLabel("Fecha (Año / Mes / Día):");
+        lblFecha.setBounds(margenIzq, 90, 200, 20);
+        IFAdministrar.add(lblFecha);
+
+        campoAño = new JTextField();
+        campoAño.setBounds(margenIzq, 115, 80, 25);
+        campoAño.setEnabled(false);
+        campoAño.addActionListener(this);
+        IFAdministrar.add(campoAño);
+
+        campoMes = new JTextField();
+        campoMes.setBounds(margenIzq + 90, 115, 60, 25);
+        campoMes.setEnabled(false);
+        campoMes.addActionListener(this);
+        IFAdministrar.add(campoMes);
+
+        campoDia = new JTextField();
+        campoDia.setBounds(margenIzq + 160, 115, 60, 25);
+        campoDia.setEnabled(false);
+        campoDia.addActionListener(this);
+        IFAdministrar.add(campoDia);
+
+// -------------------------- Horarios --------------------------
+        JLabel lblHoraInicio = new JLabel("Hora de inicio:");
+        lblHoraInicio.setBounds(margenIzq + 280, 90, 150, 20);
+        IFAdministrar.add(lblHoraInicio);
+
+        campoHoraInicio = new JTextField();
+        campoHoraInicio.setBounds(margenIzq + 280, 115, 100, 25);
+        campoHoraInicio.setEnabled(false);
+        campoHoraInicio.addActionListener(this);
+        IFAdministrar.add(campoHoraInicio);
+
+        JLabel lblHoraFinal = new JLabel("Hora final:");
+        lblHoraFinal.setBounds(margenIzq + 390, 90, 150, 20);
+        IFAdministrar.add(lblHoraFinal);
+
+        campoHoraFinal = new JTextField();
+        campoHoraFinal.setBounds(margenIzq + 390, 115, 100, 25);
+        campoHoraFinal.setEnabled(false);
+        campoHoraFinal.addActionListener(this);
+        IFAdministrar.add(campoHoraFinal);
+
+// -------------------------- Botones de acción --------------------------
+        btnEditar = new JButton("Editar");
+        btnEditar.setBounds(margenIzq + 60, 160, 120, 35);
+        btnEditar.addActionListener(this);
+        btnEditar.setEnabled(false);
+        IFAdministrar.add(btnEditar);
+
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(margenIzq + 200, 160, 120, 35);
+        btnEliminar.addActionListener(this);
+        btnEliminar.setEnabled(false);
+        IFAdministrar.add(btnEliminar);
+
+// -------------------------- Tabla de lecciones --------------------------
+        lecciones = new JTable();
+        lecciones.setEnabled(false);
+        JScrollPane scrollLecciones = new JScrollPane(lecciones);
+        scrollLecciones.setBounds(margenIzq, 220, 600, 250);
+        IFAdministrar.add(scrollLecciones);
+
+// -------------------------- Botones del formulario --------------------------
+        btnAñadirA = new JButton("Añadir");
+        btnAñadirA.setBounds(margenIzq + 60, 490, 120, 35);
+        btnAñadirA.addActionListener(this);
+        btnAñadirA.setEnabled(false);
+        IFAdministrar.add(btnAñadirA);
+
+        btnBorrarA = new JButton("Borrar");
+        btnBorrarA.setBounds(margenIzq + 200, 490, 120, 35);
+        btnBorrarA.addActionListener(this);
+        btnBorrarA.setEnabled(false);
+        IFAdministrar.add(btnBorrarA);
+
+        btnCancelarA = new JButton("Cancelar");
+        btnCancelarA.setBounds(margenIzq + 340, 490, 120, 35);
+        btnCancelarA.addActionListener(this);
+        btnCancelarA.setEnabled(false);
+        IFAdministrar.add(btnCancelarA);
+
+// -------------------------- Panel de Info Adicional --------------------------
+        JLabel infoInstructor = new JLabel("Detalles del Instructor:");
+        infoInstructor.setBounds(640, 20, 140, 20);
+        IFAdministrar.add(infoInstructor);
+
+        JTextArea detallesInstructor = new JTextArea();
+        detallesInstructor.setEditable(false);
+        JScrollPane scrollInstructor = new JScrollPane(detallesInstructor);
+        scrollInstructor.setBounds(640, 45, 130, 100);
+        IFAdministrar.add(scrollInstructor);
+
+        JLabel infoCliente = new JLabel("Detalles del Cliente:");
+        infoCliente.setBounds(640, 160, 140, 20);
+        IFAdministrar.add(infoCliente);
+
+        JTextArea detallesCliente = new JTextArea();
+        detallesCliente.setEditable(false);
+        JScrollPane scrollCliente = new JScrollPane(detallesCliente);
+        scrollCliente.setBounds(640, 185, 130, 100);
+        IFAdministrar.add(scrollCliente);
+
+
+        add(IFAdministrar);
+
 
 
     }
@@ -267,9 +436,12 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable {
             if (e.getSource() == itemAñadirLec) {
                 System.out.println("AÑADIR");
                 IFAñadorLec.setVisible(true);
+                IFAdministrar.setVisible(false);
             }
             if (e.getSource() == itemAdministrarLec) {
                 System.out.println("ADMINISTRAR");
+                IFAdministrar.setVisible(true);
+                IFAñadorLec.setVisible(false);
             }
         } else {
             if (e.getSource() == cajahoraInicio || e.getSource() == cajaHoraFinal) {
@@ -442,6 +614,8 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable {
             String año = cajaAño.getSelectedItem().toString();
             String mes = cajaMes.getSelectedItem().toString();
             String dia = cajaDia.getSelectedItem().toString();
+            boolean compuesta = rbCompuesta.isSelected();
+
 
             if (mes.length() == 1) mes = "0" + mes;
             if (dia.length() == 1) dia = "0" + dia;
@@ -469,6 +643,8 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable {
             leccion.setFecha(año + "-" + mes + "-" + dia);
             leccion.setHoraInicio("" + horaInicio);
             leccion.setHoraFinal("" + horaFin);
+            leccion.setIndividual(!compuesta);
+
 
             LeccionDAO dao = new LeccionDAO();
             boolean creacion = dao.agregarLeccion(leccion);
