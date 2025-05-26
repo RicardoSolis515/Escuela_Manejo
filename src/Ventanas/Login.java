@@ -42,27 +42,44 @@ public class Login extends JFrame implements ActionListener{
         setVisible(true);
 
         setLocationRelativeTo(null);
+// Cargar y escalar el logo
+        String ubicacionLogo = "img/logoEM.png";
+        ImageIcon icono = new ImageIcon(ubicacionLogo);
+        Image imagenAjustada = icono.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        ImageIcon iconoAjustado = new ImageIcon(imagenAjustada);
 
+// JLabel con el logo
+        JLabel logoEscuela = new JLabel();
+        logoEscuela.setIcon(iconoAjustado);
+        logoEscuela.setBounds(125, 10, 60, 60); // Centrado arriba
+        add(logoEscuela);
+
+// Etiqueta "Usuario"
         JLabel txtUsuario = new JLabel("Usuario:");
-        txtUsuario.setBounds(50, 30, 100, 25);
+        txtUsuario.setBounds(50, 80, 100, 25);
         add(txtUsuario);
 
+// Campo de texto para el usuario
         usuario = new JTextField();
-        usuario.setBounds(50, 60, 200, 25);
+        usuario.setBounds(50, 105, 200, 25);
         add(usuario);
 
+// Etiqueta "Contraseña"
         JLabel txtContrasena = new JLabel("Contraseña:");
-        txtContrasena.setBounds(50, 100, 100, 25);
+        txtContrasena.setBounds(50, 140, 100, 25);
         add(txtContrasena);
 
+// Campo de contraseña
         cont = new JPasswordField();
-        cont.setBounds(50, 130, 200, 25);
+        cont.setBounds(50, 165, 200, 25);
         add(cont);
 
+// Botón "Iniciar Sesión"
         btnIniciarSession = new JButton("Iniciar Sesión");
-        btnIniciarSession.setBounds(50, 180, 200, 30);
+        btnIniciarSession.setBounds(50, 210, 200, 30);
         btnIniciarSession.addActionListener(this);
         add(btnIniciarSession);
+
 
     }
 

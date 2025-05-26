@@ -55,16 +55,19 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         lblNombre.setBounds(40, 70, 150, 25);
         campoNombre = new JTextField();
         campoNombre.setBounds(200, 70, 300, 25);
+        campoNombre.addKeyListener(this);
 
         JLabel lblApellidoPat = new JLabel("Apellido Paterno:");
         lblApellidoPat.setBounds(40, 110, 150, 25);
         campoApellidoPat = new JTextField();
         campoApellidoPat.setBounds(200, 110, 300, 25);
+        campoApellidoPat.addKeyListener(this);
 
         JLabel lblApellidoMat = new JLabel("Apellido Materno:");
         lblApellidoMat.setBounds(40, 150, 150, 25);
         campoApellidoMat = new JTextField();
         campoApellidoMat.setBounds(200, 150, 300, 25);
+        campoApellidoMat.addKeyListener(this);
 
         JLabel lblSenior = new JLabel("¿Es Senior?");
         lblSenior.setBounds(40, 190, 150, 25);
@@ -123,14 +126,16 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         IFAdminIns.add(btnEliminar);
         IFAdminIns.add(btnCancelar);
 
-        btnEditar.setEnabled(false);
-        btnEliminar.setEnabled(false);
-        btnBorrar.setEnabled(false);
+
 
         llenarInstructores();
         llenarAutos();
 
         modoEdicion(edicion);
+
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnBorrar.setEnabled(false);
 
         ventana.add(IFAdminIns);
     }

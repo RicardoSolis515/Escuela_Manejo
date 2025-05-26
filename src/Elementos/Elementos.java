@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class Elementos extends JFrame{
 
-
+//./img/nombreImagen
 
     public void actualizarTabla(JTable tabla) {
 
