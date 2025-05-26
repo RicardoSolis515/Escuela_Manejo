@@ -6,6 +6,8 @@ import Modelo.Auto;
 import Modelo.Instructor;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -141,6 +143,55 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
         ventana.add(IFAñadirIns);
 
 
+
+        // Colores base (mismos que antes)
+        Color azulClaro = new Color(70, 130, 180);
+        Color azulOscuro = new Color(25, 25, 112);
+        Color amarilloSuave = new Color(255, 235, 100);
+        Color azulMuyClaro = new Color(220, 230, 250);
+
+// Fondo del internal frame
+        IFAñadirIns.getContentPane().setBackground(azulMuyClaro);
+
+// Etiquetas en azul oscuro
+        lblNSS.setForeground(azulOscuro);
+        lblNombre.setForeground(azulOscuro);
+        lblApellidoPat.setForeground(azulOscuro);
+        lblApellidoMat.setForeground(azulOscuro);
+        lblSenior.setForeground(azulOscuro);
+        lblVehiculo.setForeground(azulOscuro);
+
+// Bordes azules para JTextField y JComboBox
+        Border bordeAzul = BorderFactory.createLineBorder(azulClaro, 2);
+        campoNSS.setBorder(bordeAzul);
+        campoNombre.setBorder(bordeAzul);
+        campoApellidoPat.setBorder(bordeAzul);
+        campoApellidoMat.setBorder(bordeAzul);
+        cajavehiculos.setBorder(bordeAzul);
+
+// RadioButton texto azul oscuro
+        rbSenior.setForeground(azulOscuro);
+
+// Botones con fondo amarillo suave y texto azul oscuro
+        btnAñadir.setBackground(amarilloSuave);
+        btnAñadir.setForeground(azulOscuro);
+
+        btnBorrar.setBackground(amarilloSuave);
+        btnBorrar.setForeground(azulOscuro);
+
+        btnCancelar.setBackground(amarilloSuave);
+        btnCancelar.setForeground(azulOscuro);
+
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override
@@ -157,30 +208,55 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
             rbSenior.setSelected(false);
             cajavehiculos.setSelectedIndex(0);
         } else if (fuente == btnAñadir) {
+            InstructorDAO iDAO = new InstructorDAO();
             if(camposLlenos()){
-                Instructor ins = new Instructor(campoNSS.getText(),campoNombre.getText(),
-                        campoApellidoPat.getText(),campoApellidoMat.getText(),
-                        rbSenior.isSelected(),(String) cajavehiculos.getSelectedItem());
-                AutoDAO aDAO= new AutoDAO();
-                aDAO.autoAsignacion(true,(String) cajavehiculos.getSelectedItem());
-                InstructorDAO iDAO = new InstructorDAO();
-                iDAO.agregarInstructor(ins);
-                System.out.println("Se puede");
+                if(iDAO.mostrarInstructor(campoNSS.getText())==null) {
+                    Instructor ins = new Instructor(campoNSS.getText(), campoNombre.getText(),
+                            campoApellidoPat.getText(), campoApellidoMat.getText(),
+                            rbSenior.isSelected(), (String) cajavehiculos.getSelectedItem());
+                    AutoDAO aDAO = new AutoDAO();
+                    aDAO.autoAsignacion(true, (String) cajavehiculos.getSelectedItem());
+
+                    iDAO.agregarInstructor(ins);
+                    System.out.println("Se puede");
+                }else
+                    JOptionPane.showMessageDialog(this, "NSS ya existente");
+
             }
         }
     }
 
-    public boolean camposLlenos(){
-        if(campoNSS.getText().length()<11)
+    public boolean camposLlenos() {
+        // Validar NSS: debe tener 11 dígitos y no estar vacío
+        String nss = campoNSS.getText().trim();
+        if (nss.length() != 11) {
+            JOptionPane.showMessageDialog(this, "El NSS debe tener exactamente 11 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
-        if(campoNombre.getText()==null)
+        }
+
+        // Validar que nombre y apellidos no estén vacíos o sólo espacios
+        if (campoNombre.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo Nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
-        if(campoApellidoPat.getText()==null)
+        }
+        if (campoApellidoPat.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo Apellido Paterno no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
-        if(campoApellidoMat.getText()==null)
+        }
+        if (campoApellidoMat.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo Apellido Materno no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+
+        // Validar vehículo asignado seleccionado
+        if (cajavehiculos.getSelectedItem() == null || cajavehiculos.getSelectedItem().toString().equals("Seleccione...")) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un vehículo asignado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         return true;
     }
+
 
     public void llenarVehiculos(){
         cajavehiculos.removeAllItems();

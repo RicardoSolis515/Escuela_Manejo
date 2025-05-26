@@ -3,11 +3,14 @@ package Ventanas;
 import Controlador.AutoDAO;
 import Controlador.DirectorDAO;
 import Controlador.InstructorDAO;
+import Elementos.Elementos;
 import Modelo.Auto;
 import Modelo.Director;
 import Modelo.Instructor;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -27,7 +30,12 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
     boolean edicion = false;
 
+    JTable tablaInstructores;
+
     public IFAdministrarIns(JFrame ventana) {
+
+
+
 
         // Internal Frame
         IFAdminIns = new JInternalFrame("Administrar Instructor", false, false, false, false);
@@ -127,6 +135,17 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         IFAdminIns.add(btnCancelar);
 
 
+        String[] columnNames = {"NSS", "NOMBRE", "AP. PATERNO", "AP. MATERNO", "Senior", "Matricula Vehiculo"};
+        Object[][] rowData = new Object[0][columnNames.length]; // Sin datos aún
+
+        tablaInstructores = new JTable(rowData, columnNames);
+        JScrollPane scrollPane = new JScrollPane(tablaInstructores);
+
+        scrollPane.setBackground(Color.decode("#d2e2f1"));
+        scrollPane.setBounds(580, 80, 560, 300);
+        IFAdminIns.add(scrollPane);
+
+        new Elementos().actualizarTabla(tablaInstructores);
 
         llenarInstructores();
         llenarAutos();
@@ -138,6 +157,82 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         btnBorrar.setEnabled(false);
 
         ventana.add(IFAdminIns);
+
+
+
+
+        // Colores base
+        Color azulClaro = new Color(70, 130, 180);   // Steel Blue
+        Color azulOscuro = new Color(25, 25, 112);   // Midnight Blue
+        Color amarillo = new Color(255, 215, 0);     // Gold amarillo intenso
+        Color azulMuyClaro = new Color(220, 230, 250);
+
+// Fondo del InternalFrame
+        IFAdminIns.getContentPane().setBackground(azulMuyClaro);
+
+// Etiquetas en azul oscuro
+        lblNSS.setForeground(azulOscuro);
+        lblNombre.setForeground(azulOscuro);
+        lblApellidoPat.setForeground(azulOscuro);
+        lblApellidoMat.setForeground(azulOscuro);
+        lblSenior.setForeground(azulOscuro);
+        lblVehiculo.setForeground(azulOscuro);
+
+// Campos de texto y combo con borde azul
+        Border bordeAzul = BorderFactory.createLineBorder(azulClaro, 2);
+
+        cajaNSS.setBorder(bordeAzul);
+        cajavehiculos.setBorder(bordeAzul);
+
+        campoNombre.setBorder(bordeAzul);
+        campoApellidoPat.setBorder(bordeAzul);
+        campoApellidoMat.setBorder(bordeAzul);
+
+// Radio button color texto azul oscuro
+        rbSenior.setForeground(azulOscuro);
+
+// Botones fondo amarillo y texto azul oscuro
+        Color amarilloSuave = new Color(255, 235, 100);
+
+        btnAñadir.setBackground(amarilloSuave);
+        btnAñadir.setForeground(azulOscuro);
+
+        btnEditar.setBackground(amarilloSuave);
+        btnEditar.setForeground(azulOscuro);
+
+        btnGuardar.setBackground(amarilloSuave);
+        btnGuardar.setForeground(azulOscuro);
+
+        btnBorrar.setBackground(amarilloSuave);
+        btnBorrar.setForeground(azulOscuro);
+
+        btnEliminar.setBackground(amarilloSuave);
+        btnEliminar.setForeground(azulOscuro);
+
+        btnCancelar.setBackground(amarilloSuave);
+        btnCancelar.setForeground(azulOscuro);
+
+        btnBuscar.setBackground(amarilloSuave);
+        btnBuscar.setForeground(azulOscuro);
+
+// Tabla con fondo azul muy claro y filas seleccionadas en amarillo
+        tablaInstructores.setBackground(azulMuyClaro);
+        tablaInstructores.setSelectionBackground(amarillo);
+        tablaInstructores.setSelectionForeground(azulOscuro);
+        tablaInstructores.setGridColor(azulClaro);
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public void llenarInstructores(){
@@ -150,6 +245,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
     }
 
+
+
     public void llenarAutos(){
         cajavehiculos.removeAllItems();
         InstructorDAO iDAO = new InstructorDAO();
@@ -161,6 +258,7 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
         cajavehiculos.addItem(iDAO.mostrarInstructor((String) cajaNSS.getSelectedItem()).getMatriculaVehiculo());
 
+        cajavehiculos.setSelectedItem(iDAO.mostrarInstructor((String) cajaNSS.getSelectedItem()).getMatriculaVehiculo());
     }
 
     public void llenarCampos(){
