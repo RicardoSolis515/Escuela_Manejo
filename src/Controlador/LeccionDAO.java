@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LeccionDAO {
-    ConexionBD conexionBD = new ConexionBD();
+    ConexionBD conexionBD = ConexionBD.getInstancia();
 
     public boolean agregarLeccion(Leccion l) {
         String sql = "INSERT INTO Leccion (nssInstructor, telefonoCliente, individual, fecha, horaInicio, horaFinal) VALUES ('" +

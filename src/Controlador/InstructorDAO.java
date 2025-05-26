@@ -3,54 +3,72 @@ package Controlador;
 import ConexionBD.ConexionBD;
 import Modelo.Instructor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class InstructorDAO {
 
-    ConexionBD conexionBD = new ConexionBD();
+    ConexionBD conexionBD = ConexionBD.getInstancia();
 
     // ===================== Altas =====================
     public boolean agregarInstructor(Instructor instructor) {
-        String sql = "INSERT INTO Instructor VALUES('" +
-                instructor.getNSS() + "','" +
-                instructor.getNombre() + "','" +
-                instructor.getApellidoPaterno() + "','" +
-                instructor.getApellidoMaterno() + "'," +
-                instructor.isSenior() + ",'" +
-                instructor.getMatriculaVehiculo() + "')";
-
-        return conexionBD.ejecutarInstruccionLMD(sql);
+        String sql = "INSERT INTO Instructor (NSS, nombre, apellidoPaterno, apellidoMaterno, senior, matriculaVehiculo) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
+            ps.setString(1, instructor.getNSS());
+            ps.setString(2, instructor.getNombre());
+            ps.setString(3, instructor.getApellidoPaterno());
+            ps.setString(4, instructor.getApellidoMaterno());
+            ps.setBoolean(5, instructor.isSenior());
+            ps.setString(6, instructor.getMatriculaVehiculo());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // ===================== Bajas =====================
     public boolean eliminarInstructor(String NSS) {
-        String sql = "DELETE FROM Instructor WHERE NSS = '" + NSS + "'";
-        return conexionBD.ejecutarInstruccionLMD(sql);
+        String sql = "DELETE FROM Instructor WHERE NSS = ?";
+        try {
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
+            ps.setString(1, NSS);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // ===================== Cambios =====================
     public boolean editarInstructor(Instructor instructor) {
-        String sql = "UPDATE Instructor SET " +
-                "nombre = '" + instructor.getNombre() + "', " +
-                "apellidoPaterno = '" + instructor.getApellidoPaterno() + "', " +
-                "apellidoMaterno = '" + instructor.getApellidoMaterno() + "', " +
-                "senior = " + instructor.isSenior() + ", " +
-                "matriculaVehiculo = '" + instructor.getMatriculaVehiculo() + "' " +
-                "WHERE NSS = '" + instructor.getNSS() + "'";
-
-        return conexionBD.ejecutarInstruccionLMD(sql);
+        String sql = "UPDATE Instructor SET nombre = ?, apellidoPaterno = ?, apellidoMaterno = ?, senior = ?, matriculaVehiculo = ? WHERE NSS = ?";
+        try {
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
+            ps.setString(1, instructor.getNombre());
+            ps.setString(2, instructor.getApellidoPaterno());
+            ps.setString(3, instructor.getApellidoMaterno());
+            ps.setBoolean(4, instructor.isSenior());
+            ps.setString(5, instructor.getMatriculaVehiculo());
+            ps.setString(6, instructor.getNSS());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // ===================== Consulta Individual =====================
     public Instructor mostrarInstructor(String NSS) {
-        String sql = "SELECT * FROM Instructor WHERE NSS = '" + NSS + "'";
-        ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
-
+        String sql = "SELECT * FROM Instructor WHERE NSS = ?";
         Instructor i = null;
-
         try {
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
+            ps.setString(1, NSS);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 i = new Instructor(
                         rs.getString("NSS"),
@@ -66,7 +84,6 @@ public class InstructorDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return i;
     }
 
