@@ -14,9 +14,9 @@ public class Elementos extends JFrame{
 
         final String CONTROLADOR_JDBC = "com.mysql.cj.jdbc.Driver";
 
-        final String URL = "jdbc:mysql://localhost:3306/dd_topicos_2025";
+        final String URL = "jdbc:mysql://localhost:3306/db_escuela_manejo";
 
-        final String CONSULTA = "SELECT * FROM Alumnos";
+        final String CONSULTA = "SELECT * FROM Instructor";
 
         try {
             ResultSetTableModel modelo = new ResultSetTableModel(CONTROLADOR_JDBC, URL, CONSULTA);
