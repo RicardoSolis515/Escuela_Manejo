@@ -31,6 +31,7 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
 
     //----------------------------------ELEMENTOS PARA IFAÑADIR-------------------------------------------
     IFAñadir ifa;
+    IFAñadirIns ifi;
 
     //----------------------------------ELEMENTOS PARA IFADMINISTRAR------------------------------------
 
@@ -116,6 +117,8 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
         ifa = new IFAñadir(this);
 
 
+        ifi = new IFAñadirIns(this);
+
     }
 
 
@@ -125,13 +128,15 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
             if (e.getSource() instanceof MenuItem) {
                 if (e.getSource() == itemAñadirLec) {
                     System.out.println("AÑADIR LECCIÓN");
-                    //ifa.IFAñadorLec.setVisible(true);
+                    ifa.IFAñadorLec.setVisible(true);
                     //IFAdministrar.setVisible(false);
                 } else if (e.getSource() == itemAdministrarLec) {
                     System.out.println("ADMINISTRAR LECCIONES");
                     //IFAdministrar.setVisible(true);
                     //ifa.IFAñadorLec.setVisible(false);
 
+                } else if (e.getSource()==itemAñadirIns) {
+                    ifi.IFAñadirIns.setVisible(true);
                 }
 
             } else {

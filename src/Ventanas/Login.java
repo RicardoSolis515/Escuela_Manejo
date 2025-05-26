@@ -93,7 +93,7 @@ public class Login extends JFrame implements ActionListener{
 
 
 
-        //============ Prueba Combios ==========
+        //============ Prueba 1Combios ==========
 
 
 

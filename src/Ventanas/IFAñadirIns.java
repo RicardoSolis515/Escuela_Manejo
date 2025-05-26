@@ -1,14 +1,19 @@
 package Ventanas;
 
+import Controlador.AutoDAO;
 import Controlador.InstructorDAO;
+import Modelo.Auto;
 import Modelo.Instructor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 
-public class IFAñadirIns extends JFrame implements ActionListener {
+public class IFAñadirIns extends JFrame implements ActionListener, KeyListener {
 
     JInternalFrame IFAñadirIns;
 
@@ -21,10 +26,6 @@ public class IFAñadirIns extends JFrame implements ActionListener {
     JButton btnCancelar, btnAñadir, btnBorrar;
 
     public IFAñadirIns(JFrame ventana) {
-        setTitle("Ventana contenedora");
-        setSize(800, 600);
-        setLayout(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Internal Frame
         IFAñadirIns = new JInternalFrame("Añadir Instructor", false, false, false, false);
@@ -34,7 +35,7 @@ public class IFAñadirIns extends JFrame implements ActionListener {
         IFAñadirIns.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         try {
-            IFAñadirIns.setMaximum(false);
+            IFAñadirIns.setMaximum(true);
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
@@ -44,21 +45,55 @@ public class IFAñadirIns extends JFrame implements ActionListener {
         lblNSS.setBounds(40, 30, 150, 25);
         campoNSS = new JTextField();
         campoNSS.setBounds(200, 30, 300, 25);
+        campoNSS.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                String nss=campoNSS.getText();
+                if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
+                    if(nss.length()>=11)
+                        e.consume();
+                }else
+                    e.consume();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                String nss=campoNSS.getText();
+                if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
+                    if(nss.length()>=11)
+                        e.consume();
+                }else
+                    e.consume();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String nss=campoNSS.getText();
+                if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
+                    if(nss.length()>=11)
+                        e.consume();
+                }else
+                    e.consume();
+            }
+        });
 
         JLabel lblNombre = new JLabel("Nombre:");
         lblNombre.setBounds(40, 70, 150, 25);
         campoNombre = new JTextField();
         campoNombre.setBounds(200, 70, 300, 25);
+        campoNombre.addKeyListener(this);
 
         JLabel lblApellidoPat = new JLabel("Apellido Paterno:");
         lblApellidoPat.setBounds(40, 110, 150, 25);
         campoApellidoPat = new JTextField();
         campoApellidoPat.setBounds(200, 110, 300, 25);
+        campoApellidoPat.addKeyListener(this);
 
         JLabel lblApellidoMat = new JLabel("Apellido Materno:");
         lblApellidoMat.setBounds(40, 150, 150, 25);
         campoApellidoMat = new JTextField();
         campoApellidoMat.setBounds(200, 150, 300, 25);
+        campoApellidoMat.addKeyListener(this);
 
         JLabel lblSenior = new JLabel("¿Es Senior?");
         lblSenior.setBounds(40, 190, 150, 25);
@@ -67,7 +102,7 @@ public class IFAñadirIns extends JFrame implements ActionListener {
 
         JLabel lblVehiculo = new JLabel("Vehículo asignado:");
         lblVehiculo.setBounds(40, 230, 150, 25);
-        cajavehiculos = new JComboBox<>(new String[]{"Seleccione...", "ABC-123", "XYZ-789"});
+        cajavehiculos = new JComboBox<>();
         cajavehiculos.setBounds(200, 230, 300, 25);
 
         // Botones
@@ -100,9 +135,12 @@ public class IFAñadirIns extends JFrame implements ActionListener {
         IFAñadirIns.add(btnBorrar);
         IFAñadirIns.add(btnCancelar);
 
+        llenarVehiculos();
+
         // Agregar el internal frame al JFrame principal
         ventana.add(IFAñadirIns);
-        setVisible(true);
+
+
     }
 
     @Override
@@ -119,11 +157,68 @@ public class IFAñadirIns extends JFrame implements ActionListener {
             rbSenior.setSelected(false);
             cajavehiculos.setSelectedIndex(0);
         } else if (fuente == btnAñadir) {
-            JOptionPane.showMessageDialog(this, "Instructor añadido (simulado)");
+            if(camposLlenos()){
+                Instructor ins = new Instructor(campoNSS.getText(),campoNombre.getText(),
+                        campoApellidoPat.getText(),campoApellidoMat.getText(),
+                        rbSenior.isSelected(),(String) cajavehiculos.getSelectedItem());
+                AutoDAO aDAO= new AutoDAO();
+                aDAO.autoAsignacion(true,(String) cajavehiculos.getSelectedItem());
+                InstructorDAO iDAO = new InstructorDAO();
+                iDAO.agregarInstructor(ins);
+                System.out.println("Se puede");
+            }
         }
     }
 
-    public static void main(String[] args) {
-        new IFAñadirIns(null);
+    public boolean camposLlenos(){
+        if(campoNSS.getText().length()<11)
+            return false;
+        if(campoNombre.getText()==null)
+            return false;
+        if(campoApellidoPat.getText()==null)
+            return false;
+        if(campoApellidoMat.getText()==null)
+            return false;
+        return true;
+    }
+
+    public void llenarVehiculos(){
+        cajavehiculos.removeAllItems();
+
+        AutoDAO aDAO = new AutoDAO();
+        ArrayList<Auto> autos = aDAO.mostrarAutosDisponibles();
+        for (Auto x:autos)
+            cajavehiculos.addItem( x.getMatricula());
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else
+            e.consume();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else
+            e.consume();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else
+            e.consume();
     }
 }
