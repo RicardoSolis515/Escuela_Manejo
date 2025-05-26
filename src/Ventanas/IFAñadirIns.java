@@ -31,7 +31,7 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
         IFAñadirIns = new JInternalFrame("Añadir Instructor", false, false, false, false);
         IFAñadirIns.setLayout(null);
         IFAñadirIns.setBounds(50, 30, 600, 400);
-        IFAñadirIns.setVisible(true);
+        IFAñadirIns.setVisible(false);
         IFAñadirIns.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         try {
