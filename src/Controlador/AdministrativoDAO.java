@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class AdministrativoDAO {
 
-    ConexionBD conexionBD = new ConexionBD();
+    ConexionBD conexionBD = ConexionBD.getInstancia();
 
     // ===================== Altas =====================
     public boolean agregarAdministrativo(Administrativo administrativo) {
