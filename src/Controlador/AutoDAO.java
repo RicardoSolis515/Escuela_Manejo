@@ -35,6 +35,13 @@ public class AutoDAO {
         return conexionBD.ejecutarInstruccionLMD(sql);
     }
 
+    public boolean autoAsignacion(boolean estado, String matricula) {
+        String sql = "UPDATE Auto SET " +
+                "asignado = " + estado +
+                " WHERE matricula = '" + matricula+ "'";
+        return conexionBD.ejecutarInstruccionLMD(sql);
+    }
+
     public Auto mostrarAuto(String matricula) {
         String sql = "SELECT * FROM Auto WHERE matricula = '" + matricula + "'";
         ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
@@ -60,6 +67,29 @@ public class AutoDAO {
     public ArrayList<Auto> mostrarAutos() {
         ArrayList<Auto> lista = new ArrayList<>();
         String sql = "SELECT * FROM Auto";
+        ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
+
+        try {
+            while (rs.next()) {
+                Auto auto = new Auto(
+                        rs.getBoolean("asignado"),
+                        rs.getString("matricula"),
+                        rs.getString("marca"),
+                        rs.getString("modelo"),
+                        rs.getString("kilometraje")
+                );
+                lista.add(auto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public ArrayList<Auto> mostrarAutosDisponibles() {
+        ArrayList<Auto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM Auto WHERE asignado = false";
         ResultSet rs = conexionBD.ejecutarIstruccionSQL(sql);
 
         try {
