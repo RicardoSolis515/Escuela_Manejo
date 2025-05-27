@@ -148,6 +148,7 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
                     setSize(1200, 500);
                     setLocationRelativeTo(null);
                     ifai.IFAdminIns.setVisible(true);
+                    ifai.actualizar();
                     ifi.IFAñadirIns.setVisible(false);
                 }
 

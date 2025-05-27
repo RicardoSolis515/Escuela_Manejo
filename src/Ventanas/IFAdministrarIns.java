@@ -167,10 +167,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         Color amarillo = new Color(255, 215, 0);     // Gold amarillo intenso
         Color azulMuyClaro = new Color(220, 230, 250);
 
-// Fondo del InternalFrame
         IFAdminIns.getContentPane().setBackground(azulMuyClaro);
 
-// Etiquetas en azul oscuro
         lblNSS.setForeground(azulOscuro);
         lblNombre.setForeground(azulOscuro);
         lblApellidoPat.setForeground(azulOscuro);
@@ -178,7 +176,6 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         lblSenior.setForeground(azulOscuro);
         lblVehiculo.setForeground(azulOscuro);
 
-// Campos de texto y combo con borde azul
         Border bordeAzul = BorderFactory.createLineBorder(azulClaro, 2);
 
         cajaNSS.setBorder(bordeAzul);
@@ -188,10 +185,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         campoApellidoPat.setBorder(bordeAzul);
         campoApellidoMat.setBorder(bordeAzul);
 
-// Radio button color texto azul oscuro
         rbSenior.setForeground(azulOscuro);
 
-// Botones fondo amarillo y texto azul oscuro
         Color amarilloSuave = new Color(255, 235, 100);
 
         btnAñadir.setBackground(amarilloSuave);
@@ -223,6 +218,9 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
 
 
+        campoNombre.addKeyListener(this);
+        campoApellidoPat.addKeyListener(this);
+        campoApellidoMat.addKeyListener(this);
 
 
 
@@ -276,10 +274,40 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
     }
 
+    public void buscar(){
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                llenarCampos();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnEliminar.setEnabled(true);
+                        btnEditar.setEnabled(true);
+                        btnBorrar.setEnabled(true);
+                    }
+                });
+            }
+        });
+        hilo.start();
+        try {
+            // El hilo principal se "pausa" aquí hasta que 'hilo' termine
+            hilo.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizar(){
+        llenarInstructores();
+        llenarAutos();
+        llenarCampos();
+        new Elementos().actualizarTabla(tablaInstructores);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-
         if (src == btnCancelar) {
             IFAdminIns.setVisible(false);
         } else if (src == btnBorrar) {
@@ -296,12 +324,11 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
             guardarEdicion();
             modoEdicion(!edicion);
         } else if (src == btnBuscar) {
-            llenarCampos();
-            btnEliminar.setEnabled(true);
-            btnEditar.setEnabled(true);
-            btnBorrar.setEnabled(true);
+            buscar();
         } else if (src == btnEditar) {
             edicion = !edicion;
+            if(!edicion)
+                llenarCampos();
             modoEdicion(edicion);
         } else if (src == btnAñadir) {
             //JOptionPane.showMessageDialog(this, "Instructor añadido.");
@@ -339,7 +366,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         DirectorDAO dDAO = new DirectorDAO();
 
         String nss = (String) cajaNSS.getSelectedItem();
-        String matricula = iDAO.mostrarInstructor(nss).getMatriculaVehiculo();
+        Instructor insTemp = iDAO.mostrarInstructor(nss);
+        String matricula = insTemp.getMatriculaVehiculo();
 
         Director d= dDAO.mostrarDirector();
         if(d.getNss().equals(nss)){
@@ -348,7 +376,7 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
             iDAO.eliminarInstructor(nss);
             aDAO.autoAsignacion(false, matricula);
         }
-
+        cajaNSS.setSelectedIndex(0);
     }
 
     public void modoEdicion(boolean confirmacion){
@@ -359,6 +387,7 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         btnEliminar.setEnabled(!confirmacion);
         btnAñadir.setEnabled(!confirmacion);
 
+
         btnGuardar.setEnabled(confirmacion);
         cajavehiculos.setEnabled(confirmacion);
         campoNombre.setEnabled(confirmacion);
@@ -368,11 +397,38 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else if(e.getKeyChar()==8){
+
+        }else
+            e.consume();
+    }
     @Override
-    public void keyPressed(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else if(e.getKeyChar()==8){
+
+        }else
+            e.consume();
+    }
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
+
+        }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else if(e.getKeyChar()==8){
+
+        }else
+            e.consume();
+    }
 
 }
 

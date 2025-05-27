@@ -54,6 +54,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
                 if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
                     if(nss.length()>=11)
                         e.consume();
+                }else if(e.getKeyChar()==8){
+
                 }else
                     e.consume();
             }
@@ -64,6 +66,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
                 if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
                     if(nss.length()>=11)
                         e.consume();
+                }else if(e.getKeyChar()==8){
+
                 }else
                     e.consume();
             }
@@ -74,6 +78,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
                 if(e.getKeyChar()>='0'&&e.getKeyChar()<='9'){
                     if(nss.length()>=11)
                         e.consume();
+                }else if(e.getKeyChar()==8){
+
                 }else
                     e.consume();
             }
@@ -219,6 +225,16 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
 
                     iDAO.agregarInstructor(ins);
                     System.out.println("Se puede");
+                    JOptionPane.showMessageDialog(this,"Instructor agregado correctamente");
+
+                    campoNSS.setText("");
+                    campoNombre.setText("");
+                    campoApellidoPat.setText("");
+                    campoApellidoMat.setText("");
+                    rbSenior.setSelected(false);
+                    cajavehiculos.setSelectedIndex(0);
+
+                    llenarVehiculos();
                 }else
                     JOptionPane.showMessageDialog(this, "NSS ya existente");
 
@@ -274,6 +290,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
 
         }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
 
+        }else if(e.getKeyChar()==8){
+
         }else
             e.consume();
     }
@@ -284,6 +302,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
 
         }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
 
+        }else if(e.getKeyChar()==8){
+
         }else
             e.consume();
     }
@@ -293,6 +313,8 @@ public class IFAñadirIns extends JFrame implements ActionListener, KeyListener 
         if(e.getKeyChar()>='a'&&e.getKeyChar()<='z'){
 
         }else if(e.getKeyChar()>='A'&&e.getKeyChar()<='Z'){
+
+        }else if(e.getKeyChar()==8){
 
         }else
             e.consume();
