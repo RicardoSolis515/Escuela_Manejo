@@ -111,26 +111,11 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
 
         setMenuBar(menuInicio);
 
-        // Logo arriba a la izquierda
-        String rutaLogo = "img/logoEM.png";
-        ImageIcon icono = new ImageIcon(rutaLogo);
-        Image imagen = icono.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-        JLabel logo = new JLabel(new ImageIcon(imagen));
-        logo.setBounds(20, 10, 80, 80);
-        add(logo);
 
-        // Panel inferior con texto
-        JPanel panelInfo = new JPanel();
-        panelInfo.setBackground(azulOscuro);
-        panelInfo.setBounds(0, 380, 1200, 70);
-        panelInfo.setLayout(new BorderLayout());
 
-        JLabel textoInfo = new JLabel(" La autoescuela EasyDrive School of Motoring fue fundada en Glasgow en 1992.");
-        textoInfo.setForeground(textoBlanco);
-        textoInfo.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
-        panelInfo.add(textoInfo, BorderLayout.CENTER);
-        add(panelInfo);
+
+
 
         ifa = new IFAñadir(this);
         ifi = new IFAñadirIns(this);

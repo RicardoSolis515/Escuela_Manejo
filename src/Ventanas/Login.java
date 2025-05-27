@@ -47,6 +47,7 @@ public class Login extends JFrame implements ActionListener{
         logoEscuela.setBounds(125, 10, 60, 60); // Centrado arriba
         add(logoEscuela);
 
+        //carlosrl_2025
         JLabel txtUsuario = new JLabel("Usuario:");
         txtUsuario.setBounds(50, 80, 100, 25);
         add(txtUsuario);
@@ -55,6 +56,7 @@ public class Login extends JFrame implements ActionListener{
         usuario.setBounds(50, 105, 200, 25);
         add(usuario);
 
+        //4321
         JLabel txtContrasena = new JLabel("Contraseña:");
         txtContrasena.setBounds(50, 140, 100, 25);
         add(txtContrasena);

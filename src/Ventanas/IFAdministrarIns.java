@@ -272,6 +272,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
         rbSenior.setSelected(ins.isSenior());
 
+        llenarAutos();
+
     }
 
     @Override
@@ -310,6 +312,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         }else if(e.getSource()==cajaNSS){
             llenarAutos();
         }
+
+        new Elementos().actualizarTabla(tablaInstructores);
     }
 
     public void guardarEdicion(){
