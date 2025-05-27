@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Login extends JFrame implements ActionListener{
+public class Login extends JFrame implements ActionListener,Runnable{
 
     DirectorDAO dDAO;
 
@@ -150,4 +150,8 @@ public class Login extends JFrame implements ActionListener{
 
     }
 
+    @Override
+    public void run() {
+
+    }
 }

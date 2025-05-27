@@ -34,11 +34,16 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
     IFAñadirIns ifi;
     IFAdministrarIns ifai;
 
+    JToolBar toolbar;
+    JButton cerrarSesion;
+
     //----------------------------------ELEMENTOS PARA IFADMINISTRAR------------------------------------
 
 
     //---------------------------------VENTANAINICIO------------------------------------
     public VentanaInicio() {
+
+
         getContentPane().setLayout(null);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -112,7 +117,13 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
         setMenuBar(menuInicio);
 
 
+        toolbar = new JToolBar();
+        cerrarSesion = new JButton("Logout");
+        cerrarSesion.addActionListener(this);
+        toolbar.add(cerrarSesion);
+        add(toolbar);
 
+        toolbar.setBounds(0, 0, 1200, 30);
 
 
 
@@ -152,7 +163,9 @@ public class VentanaInicio extends JFrame implements ActionListener, Runnable, K
                     ifi.IFAñadirIns.setVisible(false);
                 }
 
-            } else {
+            } else if(e.getSource()==cerrarSesion){
+                Thread login = new Thread(new Login());
+                dispose();
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
