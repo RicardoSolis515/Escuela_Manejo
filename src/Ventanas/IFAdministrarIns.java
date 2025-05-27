@@ -32,9 +32,8 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
 
     JTable tablaInstructores;
 
+
     public IFAdministrarIns(JFrame ventana) {
-
-
 
 
         // Internal Frame
@@ -99,9 +98,9 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         btnBorrar = new JButton("Limpiar");
         btnBorrar.setBounds(400, 300, 100, 30);
         btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(40, 350, 100, 30);
+        btnEliminar.setBounds(160, 350, 100, 30);
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(160, 350, 100, 30);
+        btnCancelar.setBounds(280, 350, 100, 30);
 
         // Agregar listeners
         btnAñadir.addActionListener(this);
@@ -127,7 +126,7 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         IFAdminIns.add(lblVehiculo);
         IFAdminIns.add(cajavehiculos);
 
-        IFAdminIns.add(btnAñadir);
+        //IFAdminIns.add(btnAñadir);
         IFAdminIns.add(btnEditar);
         IFAdminIns.add(btnGuardar);
         IFAdminIns.add(btnBorrar);
@@ -186,6 +185,7 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
         campoApellidoMat.setBorder(bordeAzul);
 
         rbSenior.setForeground(azulOscuro);
+
 
         Color amarilloSuave = new Color(255, 235, 100);
 
@@ -325,19 +325,34 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
             modoEdicion(!edicion);
         } else if (src == btnBuscar) {
             buscar();
+            cajaNSS.addActionListener(this);
         } else if (src == btnEditar) {
             edicion = !edicion;
             if(!edicion)
                 llenarCampos();
             modoEdicion(edicion);
-        } else if (src == btnAñadir) {
+
+
+        //} else if (src == btnAñadir) {
             //JOptionPane.showMessageDialog(this, "Instructor añadido.");
+
 
         } else if (src == btnEliminar) {
             //JOptionPane.showMessageDialog(this, "Instructor eliminado.");
             eliminarInstructor();
         }else if(e.getSource()==cajaNSS){
             llenarAutos();
+            campoNombre.setText("");
+            campoApellidoPat.setText("");
+            campoApellidoMat.setText("");
+            rbSenior.setSelected(false);
+            cajavehiculos.setSelectedIndex(0);
+            btnEditar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnBorrar.setEnabled(false);
+
+            cajaNSS.removeActionListener(this);
+
         }
 
         new Elementos().actualizarTabla(tablaInstructores);
@@ -361,6 +376,18 @@ public class IFAdministrarIns extends JFrame implements ActionListener, KeyListe
     }
 
     public void eliminarInstructor(){
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estás seguro de que deseas eliminar este instructor?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
         InstructorDAO iDAO = new InstructorDAO();
         AutoDAO aDAO = new AutoDAO();
         DirectorDAO dDAO = new DirectorDAO();
